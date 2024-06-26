@@ -44,4 +44,42 @@ exports.findOne = async (req, res) => {
     }
 };
 
+exports.update = async (req, res) => {
+    if(!req.body) {
+        res.status(400).send({
+            message: "Data to update can not be empty!"
+        });
+    }
+    const id = req.params.id;
+    await UserModel.findByIdAndUpdate(id, req.body, { useFindAndModify: false }).then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: `User not found.`
+            });
+        }else{
+            res.send({ message: "User updated successfully." })
+        }
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message
+        });
+    });
+};
 
+exports.delete = async (req,res)=>{
+    await UserModel.findByIdAndDelete(req.params.id).then(data=>{
+        if(!data){
+            res.status(404).send({
+                message:'User not found.'
+            });
+        }else{
+            res.send({
+                message:"User deleted successfully!"
+            });
+        }
+    }).catch(err=>{
+        res.status(500).send({
+            message:err.message
+        });
+    });
+};
