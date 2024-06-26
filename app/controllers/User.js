@@ -2,13 +2,14 @@ const UserModel = require('../model/user')
 
 exports.create = async (req, res) => {
     // console.log("req", req);
-    if (!req.body.email && !req.body.firstName && !req.body.lastName && !req.body.phone) {
+    if (!req.body.email && !req.body.name && !req.body.username && !req.body.website && !req.body.phone) {
         res.status(400).send({ message: "Content can not be empty!" });
     }
     const user = new UserModel({
         email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        name: req.body.name,
+        username: req.body.username,
+        website: req.body.website,
         phone: req.body.phone
     });
     await user.save().then(data => {
